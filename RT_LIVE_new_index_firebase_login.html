@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080d19">
+<title>RT LIVE</title>
+<style>
+:root{--bg:#080d19;--panel:#111b2e;--blue:#168cff;--cyan:#42d9ff;--text:#f4f7ff;--muted:#a8b5cc;--line:#253651}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;padding-bottom:78px}
+header{height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 17px;background:#0d1526;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.brand{font-weight:900;font-size:24px;letter-spacing:.4px;color:var(--cyan)}.brand span{color:white}
+.pill{border:1px solid #31527a;background:#13243b;border-radius:22px;padding:9px 12px;color:#ffd76a;font-size:13px}
+main{max-width:520px;margin:auto}.screen{display:none;padding:16px}.screen.active{display:block}
+.hero{padding:24px 20px;border:1px solid #214e7d;border-radius:22px;background:linear-gradient(145deg,#103e76,#111b30 68%);margin:4px 0 22px}
+.kicker{color:var(--cyan);font-size:11px;font-weight:800;letter-spacing:2px}.hero h1{font-size:32px;line-height:1.1;margin:12px 0}.hero p,.muted{color:var(--muted);line-height:1.5;font-size:14px}
+button{border:0;background:var(--blue);color:white;padding:13px 16px;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer}
+button.secondary{background:#22324c;border:1px solid #344967}button:disabled{opacity:.5}
+h2{font-size:20px;margin:18px 0 12px}.sectionhead{display:flex;justify-content:space-between;align-items:center}.sectionhead span{font-size:12px;color:var(--cyan)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.room{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;cursor:pointer}
+.roomart{height:125px;display:grid;place-items:center;font-size:42px;background:linear-gradient(135deg,#174d86,#54296d);position:relative}.room:nth-child(2) .roomart{background:linear-gradient(135deg,#3b2c68,#087b83)}.room:nth-child(3) .roomart{background:linear-gradient(135deg,#7b432c,#252b58)}.room:nth-child(4) .roomart{background:linear-gradient(135deg,#185b48,#26345c)}
+.badge{position:absolute;top:8px;left:8px;background:#e8325b;border-radius:5px;padding:5px 7px;font-size:10px;font-weight:bold}
+.roominfo{padding:11px}.roominfo b{font-size:14px}.roominfo p{margin:6px 0 0;color:var(--muted);font-size:12px}
+.panel{padding:17px;background:var(--panel);border:1px solid var(--line);border-radius:16px;margin:12px 0}
+label{display:block;color:var(--muted);font-size:13px;margin:12px 0 6px}input{width:100%;padding:13px;background:#091222;border:1px solid #30415e;border-radius:10px;color:white;font-size:15px}
+.full{width:100%;margin-top:12px}.row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:15px 0;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}
+.status{font-size:12px;color:#ffd76a;margin-top:10px;overflow-wrap:anywhere}
+.video{width:100%;aspect-ratio:9/14;background:#03070d;border:1px solid var(--line);border-radius:16px;display:grid;place-items:center;color:var(--muted);text-align:center;padding:20px}
+.chatlog{height:280px;overflow:auto;background:#091222;border:1px solid var(--line);border-radius:12px;padding:12px}.bubble{padding:10px;background:#1a2942;border-radius:10px;margin:8px 0;font-size:14px;overflow-wrap:anywhere}.bubble b{color:var(--cyan)}
+.nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:#0d1526;border-top:1px solid var(--line);display:flex;justify-content:space-around;align-items:center;z-index:10}
+.nav button{background:none;color:var(--muted);padding:7px 4px;font-size:11px;min-width:55px}.nav button.active{color:var(--cyan)}.nav i{display:block;font-style:normal;font-size:21px;margin-bottom:3px}
+.note{font-size:12px;color:var(--muted);line-height:1.5}
+</style>
+</head>
+<body>
+<header><div class="brand">RT <span>LIVE</span></div><div class="pill">🪙 <b id="coinTop">0</b></div></header>
+<main>
+<section id="home" class="screen active">
+  <div class="hero"><div class="kicker">MEET • STREAM • CONNECT</div><h1>Your world.<br>Your live.</h1><p>Join live rooms or start broadcasting with RT LIVE.</p><button onclick="go('broadcast')">🔴 Start Live</button></div>
+  <div class="sectionhead"><h2>Live rooms</h2><span>DISCOVER</span></div>
+  <div class="grid">
+    <div class="room" onclick="openRoom('Music & Chill')"><div class="roomart">🎤</div><div class="roominfo"><b>Music & Chill</b><p>Live room</p></div></div>
+    <div class="room" onclick="openRoom('Gaming Room')"><div class="roomart">🎮</div><div class="roominfo"><b>Gaming Room</b><p>Live room</p></div></div>
+    <div class="room" onclick="openRoom('Talk & Friends')"><div class="roomart">💬</div><div class="roominfo"><b>Talk & Friends</b><p>Live room</p></div></div>
+    <div class="room" onclick="openRoom('Music Lounge')"><div class="roomart">🎶</div><div class="roominfo"><b>Music Lounge</b><p>Live room</p></div></div>
+  </div>
+  <p class="note">Room discovery will show real broadcasters after the server and live-video service are configured.</p>
+</section>
+<section id="broadcast" class="screen">
+  <h2>Start a live broadcast</h2>
+  <div class="panel"><label for="roomTitle">Room title</label><input id="roomTitle" placeholder="What is your live about?"><label for="displayName">Your display name</label><input id="displayName" placeholder="Enter display name"><button class="full" onclick="startLive()">Connect to Live Service</button><div id="liveStatus" class="status">Live service is not configured.</div></div>
+  <div id="localVideo" class="video">Camera preview appears here after the live-video service is connected.</div>
+  <p class="note">For real streaming, this page needs a secure backend endpoint that creates a short-lived video-room token. Never put a server secret in this HTML file.</p>
+</section>
+<section id="room" class="screen">
+  <h2 id="roomHeading">Live room</h2>
+  <div class="video">The broadcaster's live video will appear here when the live-video provider is connected.</div>
+  <div class="panel"><h2>Live chat</h2><div id="chatLog" class="chatlog"></div><label for="chatMessage">Message</label><input id="chatMessage" maxlength="300" placeholder="Write a message"><button class="full" onclick="sendChat()">Send</button><p id="chatStatus" class="note">Online chat requires the configured server.</p></div>
+</section>
+<section id="gifts" class="screen">
+  <h2>Coins & gifts</h2><div class="panel"><p class="muted">Coin balance</p><h1>🪙 <span id="coinBalance">0</span></h1><p class="note">Real coin purchases and gift transfers must be verified by the server and payment provider.</p></div>
+  <div class="grid"><div class="panel" style="text-align:center"><div style="font-size:34px">🌹</div><b>Rose</b><p class="muted">Gift option</p><button class="secondary full" onclick="giftRequest('rose')">Send Rose</button></div><div class="panel" style="text-align:center"><div style="font-size:34px">💎</div><b>Diamond</b><p class="muted">Gift option</p><button class="secondary full" onclick="giftRequest('diamond')">Send Diamond</button></div></div><p id="giftStatus" class="status"></p>
+</section>
+<section id="profile" class="screen">
+  <h2>Account</h2>
+  <div class="panel">
+    <label for="profileName">Display name</label><input id="profileName" placeholder="Your name">
+    <label for="phoneNumber">Phone number (with country code)</label><input id="phoneNumber" type="tel" placeholder="+91XXXXXXXXXX" autocomplete="tel">
+    <div id="recaptcha-container" style="margin-top:12px"></div>
+    <button class="full" onclick="sendPhoneOtp()">📱 Send OTP</button>
+    <label for="phoneOtp">OTP code</label><input id="phoneOtp" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter SMS code" maxlength="8">
+    <button class="full" onclick="verifyPhoneOtp()">Verify OTP &amp; Sign in</button>
+    <hr style="border-color:var(--line);margin:18px 0">
+    <button class="full secondary" onclick="signInGoogle()">🔐 Continue with Google</button>
+    <p id="accountStatus" class="status">Phone OTP and Google login need an authorized web domain to work.</p>
+    <p id="signedInStatus" class="note">Not signed in.</p>
+    <button class="full secondary" onclick="signOutRT()">Sign out</button>
+  </div>
+  <div class="panel"><div class="row"><span>💰 Host earnings</span><span class="muted">Server required</span></div><div class="row"><span>🏦 Withdrawals</span><span class="muted">Verification required</span></div></div>
+</section>
+</main>
+<nav class="nav"><button class="active" data-screen="home" onclick="go('home',this)"><i>🏠</i>Home</button><button data-screen="broadcast" onclick="go('broadcast',this)"><i>🔴</i>Live</button><button data-screen="room" onclick="go('room',this)"><i>💬</i>Chat</button><button data-screen="gifts" onclick="go('gifts',this)"><i>🎁</i>Gifts</button><button data-screen="profile" onclick="go('profile',this)"><i>👤</i>Profile</button></nav>
+<script>
+/*
+  RT LIVE fresh project frontend.
+  Required backend contract (configure your own secure server):
+  POST /api/live/token  {roomName, displayName} -> {url, token}
+  POST /api/chat/send   {roomName, message, displayName}
+  GET  /api/rooms       -> [{name, broadcaster, viewers}]
+  POST /api/gifts/send  {roomName, giftType}
+  POST /api/account/setup {displayName, email}
+  These endpoints must authenticate users, validate input, rate-limit requests,
+  and keep provider/payment secrets on the server. This HTML intentionally does
+  not pretend that live streaming, chat, login, or payments work without them.
+*/
+let currentRoom='main';
+function go(id,btn){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));let b=btn||document.querySelector('[data-screen="'+id+'"]');if(b)b.classList.add('active');window.scrollTo(0,0)}
+function openRoom(name){currentRoom=name;document.getElementById('roomHeading').textContent=name;go('room')}
+async function postJSON(path,data){const r=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});if(!r.ok)throw new Error('Server request failed ('+r.status+')');return r.json()}
+async function startLive(){const title=document.getElementById('roomTitle').value.trim();const displayName=document.getElementById('displayName').value.trim();const status=document.getElementById('liveStatus');if(!title||!displayName){status.textContent='Enter both room title and display name.';return}status.textContent='Connecting…';try{const data=await postJSON('/api/live/token',{roomName:title,displayName});if(!data.url||!data.token)throw new Error('Live server did not return a room URL and token.');status.textContent='Token received. Connect the selected live-video SDK to begin broadcasting.';currentRoom=title;document.getElementById('roomHeading').textContent=title;go('room')}catch(e){status.textContent='Not connected: '+e.message+'. Configure /api/live/token on your backend first.'}}
+async function sendChat(){const input=document.getElementById('chatMessage'),message=input.value.trim(),status=document.getElementById('chatStatus');if(!message)return;status.textContent='Sending…';try{await postJSON('/api/chat/send',{roomName:currentRoom,message,displayName:document.getElementById('profileName').value.trim()||'Viewer'});const el=document.createElement('div');el.className='bubble';el.textContent=message;document.getElementById('chatLog').appendChild(el);input.value='';status.textContent='Message sent.'}catch(e){status.textContent='Chat not connected: configure /api/chat/send on your backend.'}}
+async function giftRequest(giftType){const s=document.getElementById('giftStatus');s.textContent='';try{await postJSON('/api/gifts/send',{roomName:currentRoom,giftType});s.textContent='Gift request sent to server.'}catch(e){s.textContent='Gifts are not active yet. Configure the secure gifts endpoint and wallet checks.'}}
+async function accountSetup(){const displayName=document.getElementById('profileName').value.trim(),email=document.getElementById('email').value.trim(),s=document.getElementById('accountStatus');if(!displayName||!email){s.textContent='Enter display name and email first.';return}try{await postJSON('/api/account/setup',{displayName,email});s.textContent='Account service responded. Complete authentication on your secure server.'}catch(e){s.textContent='Authentication is not connected. Configure /api/account/setup and a real identity provider.'}}
+</script>
+
+<!-- Firebase Authentication SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyCMppI7JRiaKx7UEdiUt66hz3ujeHuOrIE",
+  authDomain: "rt-live-6674e.firebaseapp.com",
+  projectId: "rt-live-6674e",
+  storageBucket: "rt-live-6674e.firebasestorage.app",
+  messagingSenderId: "583021913240",
+  appId: "1:583021913240:web:c72411a73a38ceaa5d1ced"
+};
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+const rtAuth = firebase.auth();
+const rtDB = firebase.firestore();
+let rtConfirmationResult = null;
+let rtRecaptchaVerifier = null;
+function accountMessage(message) {
+  const el = document.getElementById('accountStatus');
+  if (el) el.textContent = message;
+}
+function updateSignedInStatus(user) {
+  const el = document.getElementById('signedInStatus');
+  if (!el) return;
+  if (!user) { el.textContent = 'Not signed in.'; return; }
+  const label = user.displayName || user.phoneNumber || user.email || 'RT LIVE user';
+  el.textContent = 'Signed in as: ' + label;
+  const nameInput = document.getElementById('profileName');
+  if (nameInput && !nameInput.value && user.displayName) nameInput.value = user.displayName;
+}
+rtAuth.onAuthStateChanged(updateSignedInStatus);
+async function setupRecaptcha() {
+  if (rtRecaptchaVerifier) return;
+  rtRecaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+    size: 'normal',
+    callback: function () { accountMessage('Verification complete.'); },
+    'expired-callback': function () { accountMessage('reCAPTCHA expired. Try again.'); }
+  });
+  await rtRecaptchaVerifier.render();
+}
+async function sendPhoneOtp() {
+  const phone = document.getElementById('phoneNumber').value.trim();
+  if (!/^\+[1-9]\d{7,14}$/.test(phone)) {
+    accountMessage('Enter phone with country code, e.g. +91XXXXXXXXXX.'); return;
+  }
+  try {
+    accountMessage('Loading phone verification…');
+    await setupRecaptcha();
+    rtConfirmationResult = await rtAuth.signInWithPhoneNumber(phone, rtRecaptchaVerifier);
+    accountMessage('OTP sent by SMS. Enter the code and tap Verify OTP & Sign in.');
+  } catch (e) {
+    accountMessage('OTP failed: ' + (e.message || e.code || 'unknown error') + '. RT LIVE must be opened from an authorized website domain.');
+    if (rtRecaptchaVerifier) { try { await rtRecaptchaVerifier.clear(); } catch (_) {} rtRecaptchaVerifier = null; }
+  }
+}
+async function verifyPhoneOtp() {
+  const code = document.getElementById('phoneOtp').value.trim();
+  if (!rtConfirmationResult) { accountMessage('First tap Send OTP and complete reCAPTCHA.'); return; }
+  if (!code) { accountMessage('Enter the SMS OTP code.'); return; }
+  try { await rtConfirmationResult.confirm(code); accountMessage('Phone verified. You are signed in.'); }
+  catch (e) { accountMessage('OTP verification failed: ' + (e.message || e.code || 'check the code')); }
+}
+async function signInGoogle() {
+  try { await rtAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); accountMessage('Google sign-in successful.'); }
+  catch (e) { accountMessage('Google sign-in failed: ' + (e.message || e.code || 'unknown error') + '. Use an authorized website domain.'); }
+}
+async function signOutRT() {
+  try { await rtAuth.signOut(); accountMessage('Signed out.'); }
+  catch (e) { accountMessage('Sign out failed: ' + (e.message || e.code || 'unknown error')); }
+}
+</script>
+
+</body>
+</html>
